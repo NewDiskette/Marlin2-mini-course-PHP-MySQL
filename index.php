@@ -23,7 +23,7 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="page_login.html">Войти</a>
+                    <a class="nav-link" href="page_login.php">Войти</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Выйти</a>
@@ -41,11 +41,11 @@
                             <div class="panel-content">
 
                                 <div class="form-group">
-                                    <label class="form-label" for="simpleinput"><a href="page_login.html">Войти</a></label>
+                                    <label class="form-label" for="simpleinput"><a href="page_login.php">Войти</a></label>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label" for="simpleinput"><a href="page_register.html">Регистрация</a></label>
+                                    <label class="form-label" for="simpleinput"><a href="app/views/page_register.php">Регистрация</a></label>
                                 </div>
                                 
                             </div>

@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,9 +34,10 @@
             </a>
         </div>
         <div class="card p-4 border-top-left-radius-0 border-top-right-radius-0">
-            <div class="alert alert-success">
-                Регистрация успешна
-            </div>
+
+            <?php include '../models/functions.php';
+            display_flash_message('registеred');?>
+
             <form action="">
                 <div class="form-group">
                     <label class="form-label" for="username">Email</label>
@@ -55,13 +57,13 @@
             </form>
         </div>
         <div class="blankpage-footer text-center">
-            Нет аккаунта? <a href="page_register.html"><strong>Зарегистрироваться</strong>
+            Нет аккаунта? <a href="page_register.php"><strong>Зарегистрироваться</strong>
         </div>
     </div>
     <video poster="../../img/backgrounds/clouds.png" id="bgvid" playsinline autoplay muted loop>
         <source src="../../media/video/cc.webm" type="video/webm">
         <source src="../../media/video/cc.mp4" type="video/mp4">
     </video>
-    <script src="js/vendors.bundle.js"></script>
+    <script src="../../js/vendors.bundle.js"></script>
 </body>
 </html>
