@@ -36,16 +36,17 @@
         <div class="card p-4 border-top-left-radius-0 border-top-right-radius-0">
 
             <?php include '../models/functions.php';
-            display_flash_message('registеred');?>
+            display_flash_message('registеred');
+            display_flash_message('verify false');?>
 
-            <form action="">
+            <form action="../controllers/login.php" method="post">
                 <div class="form-group">
                     <label class="form-label" for="username">Email</label>
-                    <input type="email" id="username" class="form-control" placeholder="Эл. адрес" value="">
+                    <input type="email" id="username" name="email" class="form-control" placeholder="Эл. адрес" value="" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="password">Пароль</label>
-                    <input type="password" id="password" class="form-control" placeholder="" >
+                    <input type="password" id="password" name="password" class="form-control" placeholder="" required>
                 </div>
                 <div class="form-group text-left">
                     <div class="custom-control custom-checkbox">

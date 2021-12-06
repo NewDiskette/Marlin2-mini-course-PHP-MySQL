@@ -1,5 +1,5 @@
 <?php
-include '../../path.php';
+define('BASE_URL', 'http://lessons_www/test/marlin2/');
 
 const WARNING = 'danger text-dark" role="alert';
 const SUCCESS = 'success';
@@ -51,12 +51,34 @@ function redirect_to($path) {
     header('Location: ' . $path);
 }
 
+function get_data_from_DB($data){
 
-function email_is_busy($name){
-    $message = 'Этот эл. адрес уже занят другим пользователем.';
+    $sql = "SELECT $data FROM `users`";
+    include 'connect.php';
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    $arrayDB = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $arrayDB;
+
+}
+
+function get_data_by_param_from_DB($data, $param1, $param2){
+
+    $sql = "SELECT $data FROM `users` WHERE $param1 = '$param2'";
+    include 'connect.php';
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    $arrayDB = $statement->fetch(PDO::FETCH_ASSOC);
+    return $arrayDB;
+
+}
+
+function give_error_verify($name, $message, $path){
+        
     $flash_message = format_flash_message(WARNING, ATTENTION, $message);
     set_flash_message($name,$flash_message);
-    redirect_to(BASE_URL . 'app/views/page_register.php');
+    redirect_to($path);die;
+    
 }
 
 /* 
@@ -68,16 +90,16 @@ function email_is_busy($name){
         Return value: array
 */
 function get_user_by_email($email) {
-    $sql = "SELECT `email` FROM `users`";
-    include 'connect.php';
-    $statement = $pdo->prepare($sql);
-    $statement->execute();
-
-    $arrayEmailDB = $statement->fetchAll(PDO::FETCH_ASSOC);
+   
     $arrayEmail = array("email" => $email);
+    $arrayEmailDB = get_data_from_DB('`email`');
     
     if (in_array($arrayEmail, $arrayEmailDB)){
-        email_is_busy('email is busy');
+
+        $name = 'email is busy';
+        $message = 'Этот эл. адрес уже занят другим пользователем.';
+        $path = BASE_URL . 'app/views/page_register.php';
+        give_error_verify($name, $message, $path);
     }
 }
 
@@ -108,3 +130,23 @@ function add_user($email,$password) {
     registered('registеred');
 
 }
+
+function login($email, $password){
+    $arrayUser = array("email" => $email, "password" => $password);
+    $arrayUserDB = get_data_from_DB('`email`, `password`');
+    $infoAdminDB = get_data_by_param_from_DB('`admin`', '`email`', $email);
+
+    if (!in_array($arrayUser, $arrayUserDB)){
+        $name = 'verify false';
+        $message = 'Логин и пароль не совпадают.';
+        $path = BASE_URL . 'app/views/page_login.php';
+        give_error_verify($name, $message, $path);
+
+    }else
+        $_SESSION['user'] = $email;
+        $_SESSION['password'] = $password;
+        $_SESSION['admin'] = $infoAdminDB;
+        redirect_to(BASE_URL);
+
+}
+
