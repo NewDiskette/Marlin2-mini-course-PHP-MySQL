@@ -134,7 +134,7 @@ function add_user($email,$password) {
 function login($email, $password){
     $arrayUser = array("email" => $email, "password" => $password);
     $arrayUserDB = get_data_from_DB('`email`, `password`');
-    $infoAdminDB = get_data_by_param_from_DB('`admin`', '`email`', $email);
+    $roleDB = get_data_by_param_from_DB('role', '`email`', $email);
 
     if (!in_array($arrayUser, $arrayUserDB)){
         $name = 'verify false';
@@ -145,8 +145,40 @@ function login($email, $password){
     }else
         $_SESSION['user'] = $email;
         $_SESSION['password'] = $password;
-        $_SESSION['admin'] = $infoAdminDB;
+        $_SESSION['userDB'] = $roleDB;
         redirect_to(BASE_URL);
 
 }
 
+function phone_format($phone) 
+{
+	$phone = trim($phone);
+ 
+	$res = preg_replace(
+		array(
+			'/[\+]?([1|8])[-|\s]?\([-|\s]?(\d{3})[-|\s]?\)[-|\s]?(\d{3})[-|\s]?(\d{2})[-|\s]?(\d{2})/',
+			'/[\+]?([1|8])[-|\s]?(\d{3})[-|\s]?(\d{3})[-|\s]?(\d{2})[-|\s]?(\d{2})/',
+			'/[\+]?([1|8])[-|\s]?\([-|\s]?(\d{4})[-|\s]?\)[-|\s]?(\d{2})[-|\s]?(\d{2})[-|\s]?(\d{2})/',
+			'/[\+]?([1|8])[-|\s]?(\d{4})[-|\s]?(\d{2})[-|\s]?(\d{2})[-|\s]?(\d{2})/',	
+			'/[\+]?([1|8])[-|\s]?\([-|\s]?(\d{4})[-|\s]?\)[-|\s]?(\d{3})[-|\s]?(\d{3})/',
+			'/[\+]?([1|8])[-|\s]?(\d{4})[-|\s]?(\d{3})[-|\s]?(\d{3})/',					
+		), 
+		array(
+			'+1 $2-$3-$4$5', 
+			'+1 $2-$3-$4$5', 
+			'+1 $2-$3-$4$5', 
+			'+1 $2-$3-$4$5', 	
+			'+1 $2-$3-$4', 
+			'+1 $2-$3-$4', 
+		), 
+		$phone
+	);
+ 
+	return $res;
+}
+
+function give_status($status){
+    if ($status == 'online') return 'success';
+    elseif ($status == 'walked away') return 'warning';
+    else return 'danger';
+}
