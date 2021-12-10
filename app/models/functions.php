@@ -145,7 +145,7 @@ function login($email, $password){
     }else
         $_SESSION['user'] = $email;
         $_SESSION['password'] = $password;
-        $_SESSION['userDB'] = $roleDB;
+        $_SESSION['roleDB'] = $roleDB;
         redirect_to(BASE_URL);
 
 }
@@ -181,4 +181,15 @@ function give_status($status){
     if ($status == 'online') return 'success';
     elseif ($status == 'walked away') return 'warning';
     else return 'danger';
+}
+
+
+function update_data_in_DB($data, $update, $param1, $param2){
+
+    $sql = "UPDATE `users` SET `$data`='$update' WHERE `$param1`='$param2'";
+    include 'connect.php';
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    echo $sql;
+
 }

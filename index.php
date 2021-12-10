@@ -9,6 +9,7 @@ if (!isset($_SESSION['user']) || empty($_SESSION['user'])){
 $arrayUsers = get_data_from_DB('*');
 $count = (count($arrayUsers));
 echo $count;
+// var_dump($arrayUsers['0']['email']);
 
 ?>
 <!DOCTYPE html>
@@ -58,7 +59,7 @@ echo $count;
             <div class="row">
                 <div class="col-xl-12">
 
-                    <?php if($_SESSION['userDB'] == array('role'=> 'admin')){
+                    <?php if($_SESSION['roleDB'] == array('role'=> 'admin')){
                         echo '<a class="btn btn-success" href="app/views/create_user.php">Добавить</a>';}?>
 
                     <div class="border-faded bg-faded p-3 mb-g d-flex mt-3">

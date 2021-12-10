@@ -1,3 +1,9 @@
+<?php
+session_start();
+include '../models/functions.php';
+var_dump($_SESSION);
+$user_for_edit = $_SESSION['user_for_edit'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,10 +29,10 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="page_login.html">Войти</a>
+                    <a class="nav-link" href="page_login.php">Войти</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Выйти</a>
+                    <a class="nav-link" href="../controllers/logout.php">Выйти</a>
                 </li>
             </ul>
         </div>
@@ -38,7 +44,7 @@
             </h1>
 
         </div>
-        <form action="">
+        <form action="../controllers/edit_in_DB.php" method="post">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -47,28 +53,33 @@
                                 <h2>Общая информация</h2>
                             </div>
                             <div class="panel-content">
+                                
                                 <!-- username -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Имя</label>
-                                    <input type="text" id="simpleinput" class="form-control" value="Иван иванов">
+                                    <input type="text" id="simpleinput" name="username" class="form-control" 
+                                    value="<?php echo $user_for_edit['username'];?>">
                                 </div>
 
                                 <!-- title -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Место работы</label>
-                                    <input type="text" id="simpleinput" class="form-control" value="Marlin Веб-разработчик">
+                                    <input type="text" id="simpleinput" class="form-control"
+                                    value="<?php echo $user_for_edit['job'];?>">
                                 </div>
 
                                 <!-- tel -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Номер телефона</label>
-                                    <input type="text" id="simpleinput" class="form-control" value="8 888 8888 88">
+                                    <input type="text" id="simpleinput" class="form-control"
+                                    value="<?php echo phone_format($user_for_edit['phone']);?>">
                                 </div>
 
                                 <!-- address -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Адрес</label>
-                                    <input type="text" id="simpleinput" class="form-control" value="Восточные Королевства, Штормград">
+                                    <input type="text" id="simpleinput" class="form-control"
+                                    value="<?php echo $user_for_edit['address'];?>">
                                 </div>
                                 <div class="col-md-12 mt-3 d-flex flex-row-reverse">
                                     <button class="btn btn-warning">Редактировать</button>
